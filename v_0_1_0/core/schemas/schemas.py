@@ -8,5 +8,5 @@ class PostSchema(BaseModel):
     content: str
     preview: str
     tags: Optional[List[str]] = None
-    creation_date: str
-    last_update_date: str
+    created_at: str
+    updated_date: str
