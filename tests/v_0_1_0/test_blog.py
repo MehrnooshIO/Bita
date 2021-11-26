@@ -26,4 +26,3 @@ def test_create_blog_post():
         "last_update_date": "2020-01-01" 
     })
     assert response.status_code == 201
-    }
