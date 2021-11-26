@@ -1,3 +1,4 @@
 /env
 .pytest_cache
-tests/v_0_1_0/__pycache__
+*.pyc
+settings.json
