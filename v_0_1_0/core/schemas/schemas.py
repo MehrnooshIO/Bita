@@ -9,4 +9,4 @@ class PostSchema(BaseModel):
     preview: str
     tags: Optional[List[str]] = None
     created_at: str
-    updated_date: str
+    last_updated_at: str
