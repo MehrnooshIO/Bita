@@ -1,12 +1,12 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 
 
-class BlogPost(BaseModel):
+class PostSchema(BaseModel):
     title: str
     author: str
     content: str
     preview: str
-    tags: List[str]
+    tags: Optional[List[str]] = None
     creation_date: str
     last_update_date: str
