@@ -1,0 +1,28 @@
+name: test_workflow
+
+on:
+  push:
+    branches: [dev-blog]
+
+jobs:
+  test:
+    runs_on: ubuntu-latest
+    timeout:
+      minutes: 5
+    steps:
+      - name: check out repository code
+        uses: actions/checkout@v2
+      
+      - name: set up python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+
+      - name: install dependencies
+        run: |
+        python3 -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+      - name: run tests
+        run: |
+        python3 -m pytest -v
