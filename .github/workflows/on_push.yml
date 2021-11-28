@@ -1,0 +1,20 @@
+name: on_push
+
+on:
+  push:
+    branches:
+      - dev-blog
+
+jobs:
+  test:
+    name: unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: run tests
+        uses: actions/checkout@v2
+        run: |
+          apt-get update
+          apt-get install -y python3-pip
+          pip3 install -r requirements.txt
+          pytest
+    
