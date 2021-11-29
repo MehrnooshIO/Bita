@@ -5,7 +5,7 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(PROJECT_ROOT, '../../'))
 
 from fastapi import APIRouter, HTTPException
-from v_0_1_0.core.schemas.schemas import PostSchema
+from v_0_1_0.core.schemas.post_schema import PostSchema
 from typing import List
 
 
