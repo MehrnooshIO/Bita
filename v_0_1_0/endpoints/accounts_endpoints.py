@@ -11,10 +11,16 @@ accounts = APIRouter(
     prefix="/accounts"
 )
 
+
+@accounts.get("/register")
+def create_user_form():
+    pass
+
+
 @accounts.post("/register", status_code=201)
 def create_account(user: UserCreationSchema):
     try:
-        return {"message": "Account created"}
+        return user
     except Exception as e:
         raise HTTPException(
             status_code=424,
