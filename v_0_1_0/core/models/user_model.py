@@ -12,4 +12,4 @@ class User(Base):
     email = Column(String(50), nullable=False)
     password = Column(String(50), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
-    posts = relationship('Post', backref='user')
+    posts = relationship('Post', backref='user', default= None)
