@@ -7,10 +7,10 @@ sys.path.insert(0, os.path.join(PROJECT_ROOT, '../../'))
 from sqlalchemy.orm import Session
 from v_0_1_0.core.schemas.user_schema import UserCreationSchema
 from v_0_1_0.core.models.user_model import User
+from typing import List
 
 
-# Create new user
-def create_user_db(db: Session, user: UserCreationSchema):
+def create_user_db(db: Session, user: UserCreationSchema) -> int:
     """
     Create new user in database and return the id of that new record
     """
@@ -21,7 +21,7 @@ def create_user_db(db: Session, user: UserCreationSchema):
     return new_user.id
 
 
-def get_users_db(db:Session):
+def get_users_db(db:Session) -> List[User]:
     """
     Retrive list of registered useres from database
     """
