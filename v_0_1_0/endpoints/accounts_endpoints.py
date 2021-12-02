@@ -47,3 +47,12 @@ def create_account(user: UserCreationSchema, db: Session=Depends(get_db)):
                 "error": str(e)
             }
         )
+
+
+@accounts.get("/users")
+def get_users(db: Session = Depends(get_db)):
+    try:
+        users_list = crud.get_users_db(db)
+        return users_list
+    except:
+        pass
