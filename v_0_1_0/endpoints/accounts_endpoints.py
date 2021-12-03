@@ -19,9 +19,6 @@ accounts = APIRouter(
 )
 
 
-@accounts.get("/register")
-def create_user_form():
-    pass
 
 
 # TODO: #3 Change try - except block to cover more db failiour cases
