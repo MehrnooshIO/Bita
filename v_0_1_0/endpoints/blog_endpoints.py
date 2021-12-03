@@ -10,7 +10,7 @@ from typing import List
 
 
 blog = APIRouter(
-    tags=["blog"],
+    tags=["Blog"],
     prefix="/blog",
 )
 

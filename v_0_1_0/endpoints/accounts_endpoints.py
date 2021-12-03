@@ -15,6 +15,7 @@ def get_db():
 
 
 accounts = APIRouter(
+    tags=["Accounts"],
     prefix="/accounts"
 )
 
