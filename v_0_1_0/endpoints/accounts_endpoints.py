@@ -19,8 +19,6 @@ accounts = APIRouter(
 )
 
 
-
-
 # TODO: #3 Change try - except block to cover more db failiour cases
 @accounts.post("/register", status_code=201)
 def create_account(user: UserCreationSchema, db: Session=Depends(get_db)):
@@ -42,5 +40,14 @@ def get_users(db: Session = Depends(get_db)):
     try:
         users_list = crud.get_users_db(db)
         return users_list
+    except:
+        pass
+
+
+@accounts.get("/users/{user_id}")
+def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
+    try:
+        user = crud.get_user_by_id_db(db, user_id)
+        return user
     except:
         pass
