@@ -24,8 +24,16 @@ accounts = APIRouter(
 @accounts.post("/register", status_code=201)
 def create_account(user: UserCreationSchema, db: Session=Depends(get_db)):
     try:
-        id = crud.create_user_db(db, user)
-        return {"id": id}
+        if crud.get_user_by_email_db(db, user.email):
+            raise HTTPException(
+                status_code=409,
+                detail={
+                    "message": "Email already exists"
+                }
+            )
+        else:
+            id = crud.create_user_db(db, user)
+            return {"id": id}
     except Exception as e:
         raise HTTPException(
             status_code=424,
