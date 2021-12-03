@@ -10,3 +10,12 @@ app = FastAPI(
 
 app.include_router(blog)
 app.include_router(accounts)
+
+
+# @app.on_event("startup")
+# async def startup():
+#     import os
+#     import sys
+
+#     PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#     sys.path.insert(0, os.path.join(PROJECT_ROOT, '../../'))
