@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.join(PROJECT_ROOT, '../../'))
 
 from sqlalchemy.orm import Session
 from v_0_1_0.core.schemas.user_schema import UserCreationSchema
-from v_0_1_0.core.models.user_model import User
+from v_0_1_0.core.models.models import User
 from typing import List
 
 
