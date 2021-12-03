@@ -26,3 +26,10 @@ def get_users_db(db:Session) -> List[User]:
     Retrive list of registered useres from database
     """
     return db.query(User).all()
+
+
+def get_user_by_id_db(db:Session, user_id: int) -> User:
+    """
+    Retrive user from database by id
+    """
+    return db.query(User).filter(User.id == user_id).first()
