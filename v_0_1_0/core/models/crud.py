@@ -33,3 +33,10 @@ def get_user_by_id_db(db:Session, user_id: int) -> User:
     Retrive user from database by id
     """
     return db.query(User).filter(User.id == user_id).first()
+
+
+def get_user_by_email_db(db:Session, email: str) -> User:
+    """
+    Retrive user from database by email
+    """
+    return db.query(User).filter(User.email == email).first()
