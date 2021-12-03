@@ -19,3 +19,11 @@ def test_create_user():
 def test_get_users():
     response = client.get('/accounts/users')
     assert isinstance(response.json(), List)
+    test_user = User(**response.json()[0])
+    assert isinstance(test_user, User)
+
+
+def test_get_user_by_id():
+    response = client.get('/accounts/users/1')
+    test_user = User(**response.json())
+    assert isinstance(test_user, User)
