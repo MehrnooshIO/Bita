@@ -1,4 +1,6 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, ARRAY
+from sqlalchemy import (
+    Column, Integer, String, DateTime, ForeignKey, ARRAY
+)
 from sqlalchemy.orm import relationship
 from v_0_1_0.core.models.db import Base
 from datetime import datetime
