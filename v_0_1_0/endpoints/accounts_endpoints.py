@@ -4,36 +4,21 @@ from v_0_1_0.core.schemas.user_schema import UserCreationSchema
 from v_0_1_0.core.models import crud
 from v_0_1_0.core.models.db import sessionLocal
 
-
-# Dependency
-def get_db():
-    db = sessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+#  Import Dependencies
+from v_0_1_0.core.dependencies.depen import oath2_scheme, get_db
 
 
-accounts = APIRouter(
-    tags=["Accounts"],
-    prefix="/accounts"
-)
+accounts = APIRouter(tags=["Accounts"], prefix="/accounts")
 
 
 # TODO: #3 Change try - except block to cover more db failiour cases
 @accounts.post("/register", status_code=201)
-def create_account(user: UserCreationSchema, db: Session=Depends(get_db)):
+def create_account(user: UserCreationSchema, db: Session = Depends(get_db)):
     if crud.get_user_by_email_db(db, user.email):
-        raise HTTPException(
-            status_code=409,
-            detail={
-                "message": "Email already exists"
-            }
-        )
+        raise HTTPException(status_code=409, detail={"message": "Email already exists"})
     else:
         id = crud.create_user_db(db, user)
         return {"message": "User created sucsessfully", "id": id}
-    
 
 
 @accounts.get("/users")
@@ -46,7 +31,9 @@ def get_users(db: Session = Depends(get_db)):
 
 
 @accounts.get("/users/{user_id}")
-def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
+def get_user_by_id(
+    user_id: int, token: str = Depends(oath2_scheme), db: Session = Depends(get_db)
+):
     try:
         user = crud.get_user_by_id_db(db, user_id)
         return user
