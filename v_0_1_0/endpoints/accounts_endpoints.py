@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from v_0_1_0.core.schemas.user_schema import UserCreationSchema
 from v_0_1_0.core.models import crud
 from v_0_1_0.core.models.db import sessionLocal
+from hashlib import sha256
 
 #  Import Dependencies
 from v_0_1_0.core.dependencies.depen import oath2_scheme, get_db
@@ -17,6 +18,8 @@ def create_account(user: UserCreationSchema, db: Session = Depends(get_db)):
     if crud.get_user_by_email_db(db, user.email):
         raise HTTPException(status_code=409, detail={"message": "Email already exists"})
     else:
+        hashed_password = sha256(user.password.encode("utf-8")).hexdigest()
+        user.password = hashed_password
         id = crud.create_user_db(db, user)
         return {"message": "User created sucsessfully", "id": id}
 
