@@ -1,9 +1,21 @@
 from sqlalchemy import (
-    Column, Integer, String, DateTime, ForeignKey, ARRAY
+    Column, Integer, String, DateTime, ForeignKey, ARRAY,
+    create_engine
 )
-from sqlalchemy.orm import relationship
-from v_0_1_0.core.models.db import Base
+from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+from configparser import ConfigParser
 from datetime import datetime
+
+
+config = ConfigParser()
+config.read(".env")
+_DB_URI = f"postgresql://{config['DATABASE']['USER']}:{config['DATABASE']['PASSWORD']}@{config['DATABASE']['HOST']}:{config['DATABASE']['PORT']}/{config['DATABASE']['NAME']}"
+
+engine = create_engine(_DB_URI)
+sessionLocal = sessionmaker(bind=engine)
+Base = declarative_base()
+Base.metadata.create_all(engine)
 
 
 class User(Base):
@@ -12,7 +24,7 @@ class User(Base):
     name = Column(String(50), nullable=False)
     username = Column(String(50), nullable=False)
     email = Column(String(50), nullable=False)
-    password = Column(String(50), nullable=False)
+    password = Column(String(300), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     posts = relationship("Post", back_populates="user")
 
