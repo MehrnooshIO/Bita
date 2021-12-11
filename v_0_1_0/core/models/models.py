@@ -15,7 +15,7 @@ _DB_URI = f"postgresql://{config['DATABASE']['USER']}:{config['DATABASE']['PASSW
 engine = create_engine(_DB_URI)
 sessionLocal = sessionmaker(bind=engine)
 Base = declarative_base()
-Base.metadata.create_all(engine)
+
 
 
 class User(Base):
