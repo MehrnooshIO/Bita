@@ -7,6 +7,7 @@ from alembic import context
 
 # This is added in development
 from configparser import ConfigParser
+from v_0_1_0.core.models import models
 
 env_parser = ConfigParser()
 env_parser.read('.env')
@@ -23,7 +24,7 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = models.Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
