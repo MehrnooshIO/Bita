@@ -1,21 +1,30 @@
 from sqlalchemy import (
-    Column, Integer, String, DateTime, ForeignKey, ARRAY,
-    create_engine
+    Column,
+    Integer,
+    String,
+    DateTime,
+    ForeignKey,
+    ARRAY,
+    create_engine,
 )
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from configparser import ConfigParser
 from datetime import datetime
+import os
 
 
-config = ConfigParser()
-config.read(".env")
-_DB_URI = f"postgresql://{config['DATABASE']['USER']}:{config['DATABASE']['PASSWORD']}@{config['DATABASE']['HOST']}:{config['DATABASE']['PORT']}/{config['DATABASE']['NAME']}"
+DB_HOST = os.environ.get("DB_HOST")
+DB_PORT = os.environ.get("DB_PORT")
+DB_USER = os.environ.get("DB_USERNAME")
+DB_PASSWORD = os.environ.get("DB_PASSWORD")
+DB_NAME = os.environ.get("DB_NAME")
+
+
+_DB_URI = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 engine = create_engine(_DB_URI)
 sessionLocal = sessionmaker(bind=engine)
 Base = declarative_base()
-
 
 
 class User(Base):
