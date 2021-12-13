@@ -2,8 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from v_0_1_0.core.schemas.user_schema import UserCreationSchema
 from v_0_1_0.core.models import crud
-from v_0_1_0.core.models.db import sessionLocal
-from hashlib import sha256
+from v_0_1_0.core.utilities.utilities import hash_password
 
 #  Import Dependencies
 from v_0_1_0.core.dependencies.depen import oath2_scheme, get_db
@@ -12,14 +11,12 @@ from v_0_1_0.core.dependencies.depen import oath2_scheme, get_db
 accounts = APIRouter(tags=["Accounts"], prefix="/accounts")
 
 
-# TODO: #3 Change try - except block to cover more db failiour cases
 @accounts.post("/register", status_code=201)
 def create_account(user: UserCreationSchema, db: Session = Depends(get_db)):
     if crud.get_user_by_email_db(db, user.email):
         raise HTTPException(status_code=409, detail={"message": "Email already exists"})
     else:
-        hashed_password = sha256(user.password.encode("utf-8")).hexdigest()
-        user.password = hashed_password
+        user.password = hash_password(user.password)
         id = crud.create_user_db(db, user)
         return {"message": "User created sucsessfully", "id": id}
 
