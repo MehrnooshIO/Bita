@@ -1,8 +1,15 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
-from v_0_1_0.core.schemas.user_schema import UserCreationSchema
+from v_0_1_0.core.schemas.user_schema import (
+    UserCreationSchema,
+    UserLoginSchema,
+)
 from v_0_1_0.core.models import crud
-from v_0_1_0.core.utilities.utilities import hash_password
+from v_0_1_0.core.utilities.utilities import (
+    hash_password,
+    check_password,
+    generate_token,
+)
 
 #  Import Dependencies
 from v_0_1_0.core.dependencies.depen import oath2_scheme, get_db
@@ -19,6 +26,16 @@ def create_account(user: UserCreationSchema, db: Session = Depends(get_db)):
         user.password = hash_password(user.password)
         id = crud.create_user_db(db, user)
         return {"message": "User created sucsessfully", "id": id}
+
+
+@accounts.post("/token", status_code=200)
+def login_account(user: UserLoginSchema, db: Session = Depends(get_db)):
+    user_in_db = crud.get_user_by_email_db(db, user.email)
+    if not user_in_db:
+        raise HTTPException(status_code=404, detail={"message": "User not found"})
+    if not check_password(user.password):
+        raise HTTPException(status_code=401, detail={"message": "Incorrect password"})
+    return {"access_token": generate_token({"email": user.email})}
 
 
 @accounts.get("/users")
